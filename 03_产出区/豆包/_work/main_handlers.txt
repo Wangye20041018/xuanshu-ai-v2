@@ -1,0 +1,28 @@
+    /* 玄枢·豆包后端落实：三档模型来源 + 离线ASR（真实 handler） */
+    _xsLoadMode();
+    ee2.ipcMain.handle("xuanshu:model:setMode", async function(ev, arg){
+      try{
+        var mode = (arg && (arg.mode || (typeof arg==="string" ? arg : null))) || "auto";
+        if(typeof mode!=="string" || (mode!=="local"&&mode!=="cloud"&&mode!=="auto")) mode = "auto";
+        return await _xsApplyMode(mode);
+      }catch(e){ return { ok:false, error:String((e&&e.message)||e) }; }
+    });
+    ee2.ipcMain.handle("xuanshu:model:getMode", async function(){
+      return { mode:_xs_mode, cloudRef:_xs_cloudRef, inferenceState:_xs_state };
+    });
+    ee2.ipcMain.handle("xuanshu:asr:status", async function(){
+      var py = _asrPy(), da = _asrDaemonPath(), info = _asrModelInfo();
+      return { ok:!!(py&&da&&info), python:!!py, daemon:!!da,
+        engine:(_asr_engine || (info?info.engine:null)), model:(info?info.engine:null),
+        modelDir:(info?info.dir:null), resident:!!(_asr_child&&_asr_ready) };
+    });
+    ee2.ipcMain.handle("xuanshu:asr:transcribe", async function(ev, arg){
+      try{
+        arg = arg || {};
+        var wav = arg.audioPath || arg.path || arg.wav || arg.saveFilePath || null;
+        if(!wav) return { ok:false, code:"no-audio", text:"" };
+        if(!_xs2_fs.existsSync(wav)) return { ok:false, code:"audio-missing", text:"", audioPath:wav };
+        var r = await _asrTranscribe(wav, arg.timeoutMs || 60000);
+        return { ok:!!r.ok, text:r.text||"", code:r.ok?undefined:r.code, error:r.error, engine:_asr_engine, sec:r.sec };
+      }catch(e){ return { ok:false, code:"error", error:String((e&&e.message)||e), text:"" }; }
+    });

@@ -1,0 +1,9 @@
+﻿anchorAt 1802031 bodyOpen 1802050 bodyClose 1805349 spanLen 3319
+--- HEAD 120 ---
+function XsYuyun(p){
+var api=(typeof window!=="undefined")?window.asr_api:null;
+var [phase,setPhase]=x.useState("idle");
+--- TAIL 160 ---
+c+"s · "+chunks+"块"):(proc?"处理中…":"按住 说话")})]}),
+o.jsx("div",{className:"mt-1.5 px-1 text-[11px] leading-relaxed text-muted-foreground/80",children:note})
+]});}

@@ -1,0 +1,11 @@
+groupAppearance
+telemetryDesc
+themeDesc
+bindTitle
+checkUpdateBtn
+descriptionPlaceholder
+getMoreCredits
+hybridSavings
+userFeedback
+"通用"
+"模型-网关"

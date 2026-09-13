@@ -1,0 +1,20 @@
+﻿OK  A1 注入 XSTheme 运行时 + 主题面板组件 [anchor] x1
+OK  A2 通用页外观卡后插入主题引擎面板 [anchor] x1
+OK  B-defs 注入网关四卡 + 安全健康卡组件定义 [anchor] x1
+XX  B0a 遥测默认关闭 telemetryEnabled !0->!1 [find] x0  >>> "launchAtStartup:!1,telemetryEnabled:!0,gatewayAutoStart:!0"
+XX  B0b 掐断 Qt 匿名上报网络段，仅保留 $a 本地埋点 [find] x0  >>> "function Qt(e,t={}){$a(`product.${e}`,t),Rs(async()=>{const{invokeApi:"
+XX  B1a 导航 credits 改名为 Token [find] x0  >>> "{key:\"credits\",icon:C6,label:e(\"credits.title\")}"
+XX  B1b 删除导航 account 项 [find] x0  >>> "{key:\"account\",icon:A6,label:e(\"account.title\")},"
+XX  B1c 删除导航 updates 项 [find] x0  >>> "{key:\"updates\",icon:kl,label:e(\"updates.title\")},"
+XX  B1d 导航 feedback 改名为 关于 [find] x0  >>> "{key:\"feedback\",icon:Pd,label:e(\"feedback.title\")}"
+OK  B2 反馈页 $_e 整体替换为关于页 [start] x1
+XX  B2 反馈页 $_e 整体替换为关于页 [end] x0  >>> "o.jsx(yq,{})})]})})}"
+OK  B3 积分页 G_e 整体替换为 Token 用量页 [start] x1
+XX  B3 积分页 G_e 整体替换为 Token 用量页 [end] x0  >>> "o.jsx(\"span\",{children:e(\"credits.noMoreData\")})})]})]})]})}"
+XX  B4 高级卡之后追加 本地推理/硬件/网络/云端 四卡 [find] x0  >>> "children:o.jsx(xa,{checked:r,onCheckedChange:a})})]})]})}"
+OK  B5 安全页顶部插入安全健康检查卡 [anchor] x1
+OK  C-defs 注入三档模型来源 + 语云录音组件定义 [anchor] x1
+OK  C1 模型下拉前插入 本地/云端/自动 三档控件 [anchor] x1
+XX  C2 语云占位按钮替换为真实录音组件 XsYuyun [find] x0  >>> "o.jsx(\"button\",{type:\"button\",onClick:()=>{v(!1),Ce.warning&&Ce.warnin"
+
+漂移锚点数=10

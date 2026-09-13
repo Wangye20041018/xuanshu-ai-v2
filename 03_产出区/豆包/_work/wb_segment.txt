@@ -1,0 +1,45 @@
+success:false, error:String(e&&e.message||e) }; }
+    });
+    _wbLog("complete IPC 已注册");
+  }catch(e){ _wbLog("complete IPC 失败: "+(e&&e.message)); }
+
+  // ===== ASR 转写模型状态骨架（真实下载待中央提供转写模型文件） =====
+  try{
+    _wbE.ipcMain.handle("xuanshu:asr:status", async function(){ return { status:"not_downloaded", progress:0, downloaded:false }; });
+  try{
+    _wbE.ipcMain.handle("xuanshu:model:setMode", async function(ev, arg){
+      var mode = String((arg&&arg.mode)||"").trim().toLowerCase();
+      if(["local","cloud","auto"].indexOf(mode)<0) mode = "auto";
+      var state = (typeof _xs_state!=="undefined") ? _xs_state : "idle";
+      if(mode === "local" && typeof _xsEnsure==="function"){
+        try{ var ok = await _xsEnsure(); state = _xs_state||state; if(!ok){ return { success:false, mode:mode, state:state, error:"local engine not ready" }; } }
+        catch(e){ return { success:false, mode:mode, state:state, error:String(e&&e.message||e) }; }
+      } else if(mode === "cloud" && typeof _xsKill==="function"){
+        try{ _xsKill(); state = _xs_state||"stopped"; }catch(e){}
+      } else if(mode === "auto" && typeof _xsEnsure==="function"){
+        try{ await _xsEnsure(); state = _xs_state||state; }catch(e){}
+      }
+      try{
+        var md = _xs_path.join(_xs_os.homedir(), ".xuanshu");
+        if(!_xs_fs.existsSync(md)) _xs_fs.mkdirSync(md, {recursive:true});
+        _xs_fs.writeFileSync(_xs_path.join(md, "model-mode.json"), JSON.stringify({ mode:mode, state:state, ts:Date.now() }));
+      }catch(e){}
+      return { success:true, mode:mode, state:state };
+    });
+    _wbLog("model:setMode IPC 已注册");
+  }catch(e){ _wbLog("model:setMode IPC 注册失败: "+(e&&e.message)); }
+
+  try{
+    _wbE.ipcMain.handle("xuanshu:asr:transcribe", async function(ev, arg){
+      var p = String((arg&&arg.audioPath)||"");
+      var d = Number((arg&&arg.durationSec)||0);
+      var n = Array.isArray(arg&&arg.chunks) ? arg.chunks.length : 0;
+      return { success:false, error:"ASR transcribe model not installed", payload:{ audioPath:p, durationSec:d, chunks:n } };
+    });
+    _wbLog("asr:transcribe IPC 已注册");
+  }catch(e){ _wbLog("asr:transcribe IPC 注册失败: "+(e&&e.message)); }
+
+    _wbLog("asr status IPC 已注册");
+  }catch(e){}
+})();
+/* ===================== WorkBuddy 数据层 + 总结生成 结束 ===================== */

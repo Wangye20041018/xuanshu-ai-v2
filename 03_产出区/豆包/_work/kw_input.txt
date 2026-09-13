@@ -1,0 +1,6 @@
+"textarea"
+cloudOnly
+chat.placeholder
+chat.send
+mixRecorderStart
+startsWith("@")

@@ -1,0 +1,7 @@
+### xuanshu:model:setMode  x1
+  @2194729 …s:"not_downloaded", progress:0, downloaded:false }; }); try{ _wbE.ipcMain.handle("xuanshu:model:setMode", async function(ev, arg){ var mode = String((arg&&arg.mode)||"").trim().toLowerCase(); if(["local","clo
+### xuanshu:asr:transcribe  x1
+  @2196100 … _wbLog("model:setMode IPC 注册失败: "+(e&&e.message)); } try{ _wbE.ipcMain.handle("xuanshu:asr:transcribe", async function(ev, arg){ var p = String((arg&&arg.audioPath)||""); var d = Number((arg&&arg.durationS
+### xuanshu:asr:status  x1
+  @2194586 …)); } // ===== ASR 转写模型状态骨架（真实下载待中央提供转写模型文件） ===== try{ _wbE.ipcMain.handle("xuanshu:asr:status", async function(){ return { status:"not_downloaded", progress:0, downloaded:false }; }); try{ _wbE.ipcMain.handl
+### xuanshu:model:getMode  x0

@@ -1,0 +1,3 @@
+﻿o.jsx("span",{children:e("credits.noMoreData")})})]})]})]})}
+children:o.jsx(xa,{checked:t,onCheckedChange:n})})]})}
+o.jsxs("div",{className:"bg-white dark:bg-card rounded-2xl shadow-[0_1px_4px_rgba(0,0,0,0.04)] overflow-hidden",children:[o.jsxs("div",{className:"flex items-center gap-2.5 px-6 py-4 pb-2 text-[13px] font-semibold text-foreground border-b border-border/50",children:[o.jsx(rd,{className:"h-[18px] w-[18px] text-[#E55318]"}),e("security.overviewTitle")

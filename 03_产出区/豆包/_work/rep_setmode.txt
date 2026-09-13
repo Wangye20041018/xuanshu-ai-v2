@@ -1,0 +1,12 @@
+_wbE.ipcMain.handle("xuanshu:model:setMode", async function(ev, arg){
+      try{
+        var mode = String((arg && (arg.mode || (typeof arg==="string" ? arg : null))) || "auto").trim().toLowerCase();
+        if(["local","cloud","auto"].indexOf(mode) < 0) mode = "auto";
+        var r = await _xsApplyMode(mode); /* 起停本地引擎 + 真实改写默认模型路由 + 持久化 */
+        return { success: !!r.ok, ok: !!r.ok, mode: r.mode, state: r.state, primary: r.primary, fallbacks: r.fallbacks, error: r.error };
+      }catch(e){ return { success:false, ok:false, error:String((e&&e.message)||e) }; }
+    });
+    _wbE.ipcMain.handle("xuanshu:model:getMode", async function(){
+      try{ return { success:true, ok:true, mode:_xs_mode, cloudRef:_xs_cloudRef, state:(typeof _xs_state!=="undefined"?_xs_state:"idle") }; }
+      catch(e){ return { success:false, ok:false, error:String((e&&e.message)||e) }; }
+    })

@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>玄枢终代 · 协作进度看板</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;background:#000;background:linear-gradient(160deg,#0b0b0e,#18181d 55%,#050507);color:#eceef2;min-height:100vh;padding:24px}
+.wrap{max-width:1200px;margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+h1{font-size:22px;letter-spacing:1px}h1 small{display:block;font-size:12px;color:#aab;font-weight:400}
+.gen{font-size:12px;color:#aab}
+.bar{background:#26262e;border-radius:8px;height:18px;overflow:hidden;margin:14px 0 6px;box-shadow:inset 0 1px 3px rgba(0,0,0,.6)}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#6be1c0,#56b4ff);transition:width .6s}
+.ov{font-size:13px;color:#cde;margin-bottom:18px}
+.ov b{color:#6be1c0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.card{background:#1a1a20;border:1px solid #2e2e36;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.55)}
+.card-hd{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.ava{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#56b4ff,#6be1c0);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#102}
+.t h3{font-size:17px}.t .duty{font-size:12px;color:#bbc}
+.score{margin-left:auto;text-align:center;font-size:26px;font-weight:800}.score small{display:block;font-size:10px;color:#aab;font-weight:400}
+.metas{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.m{background:#26262e;border-radius:20px;padding:2px 10px;font-size:12px;color:#d9dbe3}
+.sec{font-size:13px;margin:6px 0;color:#dde}
+.lb{color:#8ab;font-weight:600}.lab{background:#2b3a8f88;border-left:3px solid #56b4ff;padding:4px 8px;border-radius:4px}
+.ok{color:#6be1c0}.bad{color:#ff8080}
+.done{margin:2px 0 0 18px;color:#cce} .done li{font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+th,td{border-bottom:1px solid #ffffff22;padding:5px 6px;text-align:left}
+th{color:#9ab}details summary{cursor:pointer;color:#56b4ff;font-size:13px;margin-top:6px}
+h2{font-size:16px;margin:26px 0 8px;border-left:4px solid #6be1c0;padding-left:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.panel{background:#141419;border:1px solid #2e2e36;border-radius:12px;padding:14px}
+.panel li{list-style:none;font-size:13px;margin:5px 0;color:#dde}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+</style></head><body><div class="wrap"><div id="app">
+<header><h1>玄枢终代 · 四方协作进度看板<small>豆包 / WorkBuddy / Trae / 中央 Marvis</small></h1>
+<span class="gen" id="gen">最近更新：2026-09-06 20:14:32</span></header>
+<div class="bar"><i style="width:0%"></i></div>
+<div class="ov">整体验收进度 <b>0/15</b>（0%）。中央里程碑完成 2 个。施工区最近动码：index-D5I3iBTS.js @ 09-06 20:11</div>
+<h2>参与方实时状态</h2>
+<div class="cards">
+        <div class="card">
+          <div class="card-hd"><div class="ava">豆</div><div class="t"><h3>豆包</h3><div class="duty">主题引擎 / 设置页 / 输入框三档</div></div>
+          <div class="score" style="color:#e6a23c">55<small>质量分</small></div></div>
+          <div class="metas">
+            <span class="m">阶段：T0启动（待开工）</span>
+            <span class="m">验收通过：0 项</span>
+            <span class="m">最近交付：09-06 20:02</span>
+          </div>
+          <div class="sec lab">在做：阅读给豆包_任务单.md、输出《主题引擎设计方案》到 06_意见墙</div>
+          <div class="sec">下一步：第1天输出主题引擎方案 → 第2天可测版</div>
+          <div class="sec"><span class="lb">阻塞：</span><span class="ok">无</span></div>
+          <div class="sec"><span class="lb">已完成：</span><ul class="done"><li>（暂无）</li></ul></div>
+          <div class="sec"><span class="lb">交付模块：</span>_work</div>
+          <div class="sec"><span class="lb">质量依据：</span>交付文件 6 个；缺 CHANGES.md；状态文件在跟进</div>
+          <details><summary>交付明细（6 个文件）</summary><table><tr><th>文件</th><th>大小</th><th>时间</th></tr><tr><td>_work/kw_store.txt</td><td>74KB</td><td>09-06 20:02</td></tr><tr><td>_work/kw_keys.txt</td><td>155KB</td><td>09-06 20:01</td></tr><tr><td>_work/kw_settings.txt</td><td>114KB</td><td>09-06 19:58</td></tr><tr><td>_work/kw_theme.txt</td><td>135KB</td><td>09-06 19:58</td></tr><tr><td>_work/slice.js</td><td>307KB</td><td>09-06 19:58</td></tr><tr><td>_work/probe.js</td><td>1KB</td><td>09-06 19:57</td></tr></table></details>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="ava">W</div><div class="t"><h3>WorkBuddy</h3><div class="duty">专家页 / 记忆 / 连接 / 会议</div></div>
+          <div class="score" style="color:#e6a23c">65<small>质量分</small></div></div>
+          <div class="metas">
+            <span class="m">阶段：T0启动（待开工）</span>
+            <span class="m">验收通过：0 项</span>
+            <span class="m">最近交付：09-06 20:14</span>
+          </div>
+          <div class="sec lab">在做：阅读给WorkBuddy_任务单.md、输出《专家页数据设计》</div>
+          <div class="sec">下一步：第1天专家页设计 → 第2~3天W1交付</div>
+          <div class="sec"><span class="lb">阻塞：</span><span class="bad">需中央确认 agent 持久化位置、首页自动加入 IPC</span></div>
+          <div class="sec"><span class="lb">已完成：</span><ul class="done"><li>（暂无）</li></ul></div>
+          <div class="sec"><span class="lb">交付模块：</span>W1专家页、W2记忆、W3连接、W4会议</div>
+          <div class="sec"><span class="lb">质量依据：</span>交付文件 8 个；CHANGES.md 齐；状态文件在跟进；有阻塞待解决</div>
+          <details><summary>交付明细（8 个文件）</summary><table><tr><th>文件</th><th>大小</th><th>时间</th></tr><tr><td>W1专家页/CHANGES.md</td><td>2KB</td><td>09-06 20:14</td></tr><tr><td>W1专家页/dist/assets/index-D5I3iBTS.js</td><td>2515KB</td><td>09-06 20:14</td></tr><tr><td>W2记忆/CHANGES.md</td><td>2KB</td><td>09-06 20:14</td></tr><tr><td>W2记忆/dist/assets/index-D5I3iBTS.js</td><td>2515KB</td><td>09-06 20:14</td></tr><tr><td>W3连接/CHANGES.md</td><td>2KB</td><td>09-06 20:14</td></tr><tr><td>W3连接/dist/assets/index-D5I3iBTS.js</td><td>2515KB</td><td>09-06 20:14</td></tr><tr><td>W4会议/CHANGES.md</td><td>2KB</td><td>09-06 20:14</td></tr><tr><td>W4会议/dist/assets/index-D5I3iBTS.js</td><td>2515KB</td><td>09-06 20:14</td></tr></table></details>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="ava">T</div><div class="t"><h3>Trae</h3><div class="duty">任务页定时 / AI视频 / 首页核查</div></div>
+          <div class="score" style="color:#d9534f">0<small>质量分</small></div></div>
+          <div class="metas">
+            <span class="m">阶段：T0启动（待开工）</span>
+            <span class="m">验收通过：0 项</span>
+            <span class="m">最近交付：—</span>
+          </div>
+          <div class="sec lab">在做：阅读给Trae_任务单.md、梳理定时任务现状</div>
+          <div class="sec">下一步：第1天现状梳理 → 第2~3天T1交付</div>
+          <div class="sec"><span class="lb">阻塞：</span><span class="bad">待发《定时任务现状》征求中央</span></div>
+          <div class="sec"><span class="lb">已完成：</span><ul class="done"><li>（暂无）</li></ul></div>
+          <div class="sec"><span class="lb">交付模块：</span>（暂无交付）</div>
+          <div class="sec"><span class="lb">质量依据：</span>状态文件在跟进；有阻塞待解决</div>
+          
+        </div></div>
+<div class="grid2">
+<div class="panel"><h2 style="border:0;margin:0 0 8px;padding:0">中央 Marvis（操盘 / 集成 / 验收）</h2>
+<b>已完成：</b><ul><li>- [x] T0-基线：当前部署版解包 → 02_源码\app（9446文件 / 203.9MB，官方 asar extract）</li><li>- [x] T0-方案：README / PLAN / 任务A·B·C / 状态模板 已就绪</li></ul><b>待办：</b><ul><li>- [ ] T0-把关：验收清单初始化</li><li>- [ ] T1 通网工程 / llama管理+网关后端 / token统计后端 / Icon</li><li>- [ ] T2 集成（合并三方产出→重打包→部署→逐项验收）</li><li>- [ ] T3 返工加固</li><li>- [ ] T4 终验交付</li></ul></div>
+<div class="panel"><h2 style="border:0;margin:0 0 8px;padding:0">施工区代码活跃度</h2>
+<table><tr><th>关键文件</th><th>最近修改</th></tr><tr><td>index-D5I3iBTS.js</td><td>09-06 20:11</td></tr><tr><td>index-D5I3iBTS.js.xsbak.wb.before</td><td>09-06 20:04</td></tr><tr><td>index.js</td><td>09-06 19:23</td></tr><tr><td>index-DxHWHcii.css</td><td>09-06 19:23</td></tr><tr><td>index-CEHafCJv.js</td><td>09-06 19:23</td></tr></table></div>
+</div>
+<h2>验收清单（16 项）</h2>
+<div class="panel"><table><tr><th>#</th><th>验收项</th><th>状态</th></tr><tr><td>1</td><td>首页第一批（删购买/四卡/问候玄枢/常规会话/导航头像/社区）</td><td style='color:#666'>待验</td></tr><tr><td>2</td><td>专家页卡片化+删/停(二次确认)+添加窗口+首页设计agent自动加入</td><td style='color:#666'>待验</td></tr><tr><td>3</td><td>任务页定时任务修好、不绑agent、真实触发</td><td style='color:#666'>待验</td></tr><tr><td>4</td><td>知识库→记忆（记忆/知识两块）</td><td style='color:#666'>待验</td></tr><tr><td>5</td><td>频道→连接（微信强化+QQbot不绑agent）</td><td style='color:#666'>待验</td></tr><tr><td>6</td><td>会议页按图改、无人数设定、转写本地、总结玄枢主模型</td><td style='color:#666'>待验</td></tr><tr><td>7</td><td>AI视频：删登录、云端未接置灰、时长自定义</td><td style='color:#666'>待验</td></tr><tr><td>8</td><td>设置全套：通用(删匿名+主题面板)、token页、模型-网关、安全、删账/更新、关于页</td><td style='color:#666'>待验</td></tr><tr><td>9</td><td>全局通网</td><td style='color:#666'>待验</td></tr><tr><td>10</td><td>输入框三按钮+@语云+模型三档切换</td><td style='color:#666'>待验</td></tr><tr><td>11</td><td>图标更换（圆角矩形图案）</td><td style='color:#666'>待验</td></tr><tr><td>12</td><td>云端模型API连接面板（添加/测试/删除/密钥安全）</td><td style='color:#666'>待验</td></tr><tr><td>13</td><td>磨砂玻璃主题(可调色)+图片生成主题</td><td style='color:#666'>待验</td></tr><tr><td>14</td><td>token 用量统计（本地/云端）真实数据</td><td style='color:#666'>待验</td></tr><tr><td>15</td><td>软件整体启动正常、可日常对话、本地/云端切换可用、回归首页不破</td><td style='color:#666'>待验</td></tr></table></div>
+<h2>意见墙（跨方沟通 / 依赖 / 老板意见）</h2>
+<div class="panel"><table><tr><th>文件</th><th>时间</th></tr><tr><td>Trae_定时任务现状.md</td><td>09-06 20:02</td></tr><tr><td>WorkBuddy_专家页设计.md</td><td>09-06 20:04</td></tr><tr><td>WorkBuddy_依赖声明.md</td><td>09-06 20:04</td></tr><tr><td>中央指导_三方推进决议_20260906.md</td><td>09-06 20:07</td></tr><tr><td>中央裁决_三方接口拍板_20260906.md</td><td>09-06 20:14</td></tr><tr><td>中央通知_监控面板升级为实时检测_20260906.md</td><td>09-06 20:03</td></tr><tr><td>老板指令_20260906_不分阶段_整体交付.md</td><td>09-06 19:55</td></tr><tr><td>豆包_主题引擎方案.md</td><td>09-06 20:13</td></tr></table></div>
+<footer style="margin:24px 0;font-size:12px;color:#777">数据来源：05_状态 / 03_产出区 / 06_意见墙 / 07_部署产物 / 02_源码（只读扫描）。<b>信息由中央 Marvis 按最新状态实时维护更新，点击右上角「刷新」查看最新进度。</b></footer>
+</div></div>
+<div id="refreshbar" style="position:fixed;top:14px;right:14px;z-index:99;display:flex;align-items:center;gap:10px">
+  <span style="color:#777;font-size:12px">面板信息由中央 Marvis 实时维护</span>
+  <button type="button" onclick="location.reload()" style="cursor:pointer;background:#1d1d23;color:#9be8d8;border:1px solid #3a3a44;padding:8px 18px;border-radius:20px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.5)">刷新</button>
+</div>
+</body></html>

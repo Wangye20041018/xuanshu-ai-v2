@@ -1,0 +1,5 @@
+setTheme
+telemetryEnabled:
+gatewayAutoStart
+applyTheme
+setLaunchAtStartup

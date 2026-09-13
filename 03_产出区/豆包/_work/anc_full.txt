@@ -1,0 +1,10 @@
+const $q="theme"
+{key:"account",icon:A6
+{key:"updates",icon:kl
+{key:"credits",icon:C6,label:e("credits.title")}
+{key:"feedback",icon:Pd,label:e("feedback.title")}
+o.jsx(R$e,{className:"flex min-w-0 items-center"
+children:o.jsx(xa,{checked:t,onCheckedChange:n})
+case"feedback":return o.jsx($_e,{})
+case"credits":return o.jsx(G_e,{})
+value:t,onChange:f=>n(f)})}),o.jsx(F0,{label:e("appearance.language")

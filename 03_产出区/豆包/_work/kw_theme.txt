@@ -1,0 +1,9 @@
+setAttribute("theme-mode"
+theme-mode=
+themeMode
+color-scheme
+semi-always-dark
+switchMode
+toggleTheme
+documentElement
+body.setAttribute

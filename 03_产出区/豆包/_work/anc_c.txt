@@ -1,0 +1,6 @@
+﻿o.jsx(R$e,{className:"flex min-w-0 items-center"
+语音识别引擎待接入
+按住说话，松开后自动转成文字
+});function q$e(
+window.asr_api
+asr:mixRecorderStart

@@ -1,0 +1,11 @@
+﻿anchorAt 1544903 bodyOpen 1544917 bodyClose 1547431 spanLen 2529
+--- HEAD 120 ---
+function $_e(){
+var {t:e}=tt("settings");
+var [ver,setVer]=x.useState("");
+var [plat,setPlat]=x.useState("");
+x.useEffec
+--- TAIL 160 ---
+[13px] leading-relaxed text-muted-foreground",children:"本软件为本地私人版本，已关闭匿名使用统计与崩溃上报；不会在后台向厂商云端上传行为数据。需要联网的能力（如云端模型、模型目录同步）仅在你主动使用时发起，且可在「模型与网关」中单独管理。"})
+]})
+]});}

@@ -1,0 +1,11 @@
+const $q="theme"
+function $D(
+key:"appearance",icon:nF
+case"appearance":return o.jsx($D,{})
+function G_e(
+function E_e(
+function $_e(
+function S_e(
+function A_e(
+function I_e(
+function W_e(

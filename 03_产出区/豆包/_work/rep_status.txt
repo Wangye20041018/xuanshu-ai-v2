@@ -1,0 +1,7 @@
+_wbE.ipcMain.handle("xuanshu:asr:status", async function(){
+      var _i = _asrModelInfo(), _py = _asrPy(), _da = _asrDaemonPath();
+      var _ready = !!(_py && _da && _i);
+      return { status: _ready ? "ready" : "not_downloaded", progress: _ready ? 1 : 0, downloaded: _ready,
+        ok: _ready, python: !!_py, daemon: !!_da, engine: (_asr_engine || (_i ? _i.engine : null)),
+        modelDir: _i ? _i.dir : null, resident: !!(_asr_child && _asr_ready) };
+    })

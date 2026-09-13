@@ -1,0 +1,10 @@
+_wbE.ipcMain.handle("xuanshu:asr:transcribe", async function(ev, arg){
+      try{
+        arg = arg || {};
+        var wav = arg.audioPath || arg.path || arg.wav || arg.saveFilePath || "";
+        if(!wav) return { success:false, ok:false, code:"no-audio", text:"" };
+        if(!_xs2_fs.existsSync(wav)) return { success:false, ok:false, code:"audio-missing", text:"", audioPath:wav };
+        var r = await _asrTranscribe(wav, arg.timeoutMs || 60000);
+        return { success:!!r.ok, ok:!!r.ok, text:r.text||"", code:r.ok?undefined:r.code, error:r.error, engine:_asr_engine, sec:r.sec, payload:{ audioPath:wav } };
+      }catch(e){ return { success:false, ok:false, code:"error", error:String((e&&e.message)||e), text:"" }; }
+    })

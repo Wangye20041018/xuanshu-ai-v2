@@ -1,0 +1,34 @@
+﻿PASS  setMode 唯一 handle: got=1 expect=1
+PASS  getMode 唯一 handle: got=1 expect=1
+PASS  asr:transcribe 唯一 handle: got=1 expect=1
+PASS  asr:status 唯一 handle: got=1 expect=1
+PASS  无残留 asr status 骨架(progress:0,downloaded:false): got=0 expect=0
+PASS  无残留 transcribe 未安装骨架: got=0 expect=0
+PASS  无残留 setMode 旧骨架(local engine not ready): got=0 expect=0
+PASS  setMode 调 _xsApplyMode: got=1 expect=1
+PASS  transcribe 调 _asrTranscribe: got=1 expect=1
+FAIL  status 调 _asrModelInfo: got=3 expect=2
+PASS  保留 inference:status: got=1 expect=1
+PASS  保留 inference:start: got=1 expect=1
+PASS  保留 inference:setModel: got=1 expect=1
+PASS  保留 inference:setContext: got=1 expect=1
+PASS  inference:stop 仍为 on: got=1 expect=1
+PASS  定义 function _xsApplyMode: got=1 expect=1
+PASS  定义 function _xsCommitModel: got=1 expect=1
+PASS  定义 function _xsPickCloud: got=1 expect=1
+PASS  定义 function _xsLocalRef: got=1 expect=1
+PASS  定义 function _asrSpawn: got=1 expect=1
+PASS  定义 function _asrTranscribe: got=1 expect=1
+PASS  定义 function _asrEnsure: got=1 expect=1
+PASS  定义 function _asrModelInfo: got=1 expect=1
+PASS  定义 function _asrKill: got=1 expect=1
+PASS  定义 function _xsResRoots: got=1 expect=1
+PASS  before-quit 结束ASR: got=1 expect=1
+PASS  _xsSetup 定义唯一: got=1 expect=1
+PASS  spawn asr_daemon.py: got=1 expect=1
+PASS  新增块无联网 URL: got=0 expect=0
+PASS  新增块仅用内置模块: got=5 expect=5
+PASS  改 agents.defaults.model.primary: got=1 expect=1
+PASS  local-qwen 本地引用: got=1 expect=1
+
+*** 1 FAILED ***

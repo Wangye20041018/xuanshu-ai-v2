@@ -1,0 +1,7 @@
+﻿{key:"credits",icon:C6,label:e("credits.title")}
+{key:"account",icon:A6,label:e("account.title")},
+{key:"updates",icon:kl,label:e("updates.title")},
+{key:"feedback",icon:Pd,label:e("feedback.title")}
+e("credits.noMoreData")})]})]})]})]})}
+e("security.overviewTitle")
+launchAtStartup:!1,telemetryEnabled:!0,gatewayAutoStart:!0

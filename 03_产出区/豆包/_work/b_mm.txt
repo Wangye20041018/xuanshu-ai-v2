@@ -1,0 +1,6 @@
+﻿anchorAt 1800515 bodyOpen 1800537 bodyClose 1802028 spanLen 1514
+--- HEAD 120 ---
+function XsModelMode(){
+var [mode,setMode]=x.useState(function(){try{return localStorage.getItem("xs:modelMode")||"auto"
+--- TAIL 160 ---
+"span",{className:se("h-1.5 w-1.5 rounded-full",localReady?"bg-emerald-500":"bg-amber-500"),title:localReady?"本地推理就绪":"本地推理未就绪，将提示"}):null,it[1]]},it[0]);})});}

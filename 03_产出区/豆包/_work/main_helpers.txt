@@ -1,0 +1,166 @@
+/* ===== 玄枢·豆包后端落实：三档模型路由 + 离线ASR常驻服务（顶层辅助，定点插入，不改既有逻辑） ===== */
+var _xs2_fs = require("fs"), _xs2_path = require("path"), _xs2_os = require("os"), _xs2_cp = require("child_process");
+
+/* ---------- 三档模型来源 local/cloud/auto ---------- */
+var _xs_mode = "auto", _xs_cloudRef = null;
+function _xsModeFile(){
+  try{ var d = _xs2_path.join(_xs2_os.homedir(), ".xuanshu");
+    try{ _xs2_fs.mkdirSync(d, {recursive:true}); }catch(e){}
+    return _xs2_path.join(d, "model-mode.json");
+  }catch(e){ return ""; }
+}
+function _xsLoadMode(){
+  try{ var f = _xsModeFile(); if(f && _xs2_fs.existsSync(f)){ var j = JSON.parse(_xs2_fs.readFileSync(f,"utf8"));
+    if(j && (j.mode==="local"||j.mode==="cloud"||j.mode==="auto")) _xs_mode = j.mode;
+    if(j && typeof j.cloudRef==="string") _xs_cloudRef = j.cloudRef; } }catch(e){}
+}
+function _xsSaveMode(){
+  try{ var f = _xsModeFile(); if(f) _xs2_fs.writeFileSync(f, JSON.stringify({mode:_xs_mode, cloudRef:_xs_cloudRef, ts:Date.now()}), "utf8"); }catch(e){}
+}
+function _xsLocalRef(cfg){
+  var id = null;
+  try{ var p = cfg && cfg.models && cfg.models.providers && cfg.models.providers["local-qwen"];
+    id = p && p.models && p.models[0] && p.models[0].id; }catch(e){}
+  if(!id){ try{ id = _xsReadLocalConfig().model; }catch(e){} }
+  if(!id) id = "qwen3.5-9b";
+  return "local-qwen/" + id;
+}
+function _xsPickCloud(cfg){
+  if(_xs_cloudRef) return _xs_cloudRef;
+  var prov = (cfg && cfg.models && cfg.models.providers) || {};
+  var keys = Object.keys(prov), order = ["token-cloud", "herdsman"];
+  for(var i=0;i<keys.length;i++){ if(order.indexOf(keys[i]) < 0) order.push(keys[i]); }
+  for(var k=0;k<order.length;k++){ var key = order[k];
+    if(!key || key==="local-qwen") continue;
+    var pp = prov[key], idd = pp && pp.models && pp.models[0] && pp.models[0].id;
+    if(idd) return key + "/" + idd;
+  }
+  return null;
+}
+async function _xsCommitModel(primary, fallbacks){
+  var fb = Array.isArray(fallbacks) ? fallbacks : [];
+  /* 优先走运行时热更新，对话网关立即生效 */
+  try{ var rt = Xr();
+    await rt.mutateAndWait(function(d){
+      d.agents = d.agents || {}; d.agents.defaults = d.agents.defaults || {};
+      d.agents.defaults.model = { primary: primary, fallbacks: fb };
+    }, {reason:"xuanshu:model:setMode"});
+    return true;
+  }catch(e1){
+    /* 回退：直接改配置文件 */
+    try{ var c = await Zr();
+      c.agents = c.agents || {}; c.agents.defaults = c.agents.defaults || {};
+      c.agents.defaults.model = { primary: primary, fallbacks: fb };
+      await bs(c); return true;
+    }catch(e2){ try{ _xsLog("setMode 写配置失败: " + (e2 && e2.message)); }catch(e){} return false; }
+  }
+}
+async function _xsApplyMode(mode){
+  if(mode!=="local" && mode!=="cloud" && mode!=="auto") mode = "auto";
+  _xs_mode = mode;
+  var cfg = null; try{ cfg = await Zr(); }catch(e){}
+  if(!cfg) return { ok:false, error:"config-unavailable", mode:mode };
+  var sec = cfg.agents && cfg.agents.defaults && cfg.agents.defaults.model;
+  if(sec && typeof sec.primary==="string" && sec.primary.indexOf("local-qwen/")!==0) _xs_cloudRef = sec.primary;
+  var localRef = _xsLocalRef(cfg), cloud = _xsPickCloud(cfg), primary, fb = [];
+  if(mode==="local"){ try{ await _xsEnsure(); }catch(e){} primary = localRef; fb = []; }
+  else if(mode==="cloud"){
+    primary = cloud || (sec && sec.primary) || localRef;
+    fb = ((sec && Array.isArray(sec.fallbacks)) ? sec.fallbacks : []).filter(function(x){ return typeof x==="string" && x.indexOf("local-qwen/")!==0; });
+  }else{ try{ await _xsEnsure(); }catch(e){} primary = localRef; fb = cloud ? [cloud] : []; }
+  var wrote = await _xsCommitModel(primary, fb);
+  _xsSaveMode();
+  return { ok:wrote, mode:mode, primary:primary, fallbacks:fb, state:_xs_state };
+}
+
+/* ---------- 离线 ASR 常驻进程（便携 Python + sherpa-onnx） ---------- */
+var _asr_child = null, _asr_ready = false, _asr_engine = "", _asr_seq = 0, _asr_waiters = {}, _asr_idle = null;
+function _xsResRoots(){
+  var roots = [];
+  try{ if(process.resourcesPath) roots.push(process.resourcesPath); }catch(e){}
+  try{ var el = require("electron"); if(el && el.app && el.app.getAppPath){ roots.push(_xs2_path.join(el.app.getAppPath(), "resources")); roots.push(_xs2_path.join(el.app.getAppPath(), "..", "resources")); } }catch(e){}
+  roots.push("E:\\玄枢AI\\xuanshu-ai-dev\\resources"); /* 开发母工程（与本地推理模型目录策略一致） */
+  var out = []; for(var i=0;i<roots.length;i++){ if(roots[i] && out.indexOf(roots[i])<0) out.push(roots[i]); }
+  return out;
+}
+function _asrFind(rel){
+  var roots = _xsResRoots();
+  for(var i=0;i<roots.length;i++){ var f = _xs2_path.join(roots[i], rel); try{ if(_xs2_fs.existsSync(f)) return f; }catch(e){} }
+  return null;
+}
+function _asrPy(){ return _asrFind(_xs2_path.join("python","python.exe")); }
+function _asrDaemonPath(){ return _asrFind(_xs2_path.join("python","asr_daemon.py")); }
+function _asrModelInfo(){
+  var roots = _xsResRoots();
+  for(var i=0;i<roots.length;i++){
+    var vm = _xs2_path.join(roots[i], "voice-models");
+    var sv = _xs2_path.join(vm, "sensevoice-small");
+    if(_xs2_fs.existsSync(_xs2_path.join(sv,"model.onnx")) && _xs2_fs.existsSync(_xs2_path.join(sv,"tokens.txt")))
+      return { engine:"sensevoice", dir:sv };
+    var pf = _xs2_path.join(vm, "paraformer-zh");
+    var pm = _xs2_fs.existsSync(_xs2_path.join(pf,"model.int8.onnx")) ? _xs2_path.join(pf,"model.int8.onnx")
+            : (_xs2_fs.existsSync(_xs2_path.join(pf,"model.onnx")) ? _xs2_path.join(pf,"model.onnx") : null);
+    if(pm && _xs2_fs.existsSync(_xs2_path.join(pf,"tokens.txt"))) return { engine:"paraformer", dir:pf, model:pm };
+  }
+  return null;
+}
+function _asrKill(){
+  try{ if(_asr_child){ try{ _asr_child.stdin.write(JSON.stringify({type:"quit"})+"\n"); }catch(e){} try{ _asr_child.kill(); }catch(e){} } }catch(e){}
+  _asr_child = null; _asr_ready = false;
+  if(_asr_idle){ clearTimeout(_asr_idle); _asr_idle = null; }
+}
+function _asrFailAll(err){
+  var msg = String((err && err.message) || err || "asr-daemon-lost"), ids = Object.keys(_asr_waiters);
+  for(var i=0;i<ids.length;i++){ var id = ids[i], w = _asr_waiters[id]; delete _asr_waiters[id];
+    try{ w({ type:"result", id:id, ok:false, code:"daemon-lost", error:msg, text:"" }); }catch(e){} }
+}
+function _asrSpawn(){
+  return new Promise(function(resolve, reject){
+    var py = _asrPy(), da = _asrDaemonPath(), info = _asrModelInfo();
+    if(!py) return reject(new Error("embedded-python-missing"));
+    if(!da) return reject(new Error("asr-daemon-missing"));
+    if(!info) return reject(new Error("asr-model-missing"));
+    var c;
+    try{ c = _xs2_cp.spawn(py, [da], { stdio:["pipe","pipe","pipe"], windowsHide:true }); }
+    catch(e){ return reject(e); }
+    _asr_child = c; _asr_ready = false;
+    var linebuf = "", settled = false;
+    var timer = setTimeout(function(){ if(!settled){ settled = true; try{c.kill();}catch(e){} reject(new Error("asr-daemon-load-timeout")); } }, 90000);
+    c.stdout.setEncoding("utf8");
+    c.stdout.on("data", function(d){
+      linebuf += d; var i;
+      while((i = linebuf.indexOf("\n")) >= 0){
+        var line = linebuf.slice(0,i).trim(); linebuf = linebuf.slice(i+1); if(!line) continue;
+        var m; try{ m = JSON.parse(line); }catch(e){ continue; }
+        if(m.type==="ready"){
+          if(settled) continue; settled = true; clearTimeout(timer);
+          if(m.ok){ _asr_ready = true; _asr_engine = m.engine || info.engine; resolve(m); }
+          else { try{c.kill();}catch(e){} reject(new Error(m.error || "asr-engine-load-failed")); }
+        }else if(m.type==="result"){ var w = _asr_waiters[m.id]; if(w){ delete _asr_waiters[m.id]; w(m); } }
+      }
+    });
+    c.stderr && c.stderr.setEncoding("utf8");
+    c.on("error", function(e){ if(!settled){ settled=true; clearTimeout(timer); reject(e); } _asr_child=null; _asr_ready=false; _asrFailAll(e); });
+    c.on("exit", function(){ _asr_child=null; _asr_ready=false; _asrFailAll(new Error("asr-daemon-exit")); });
+  });
+}
+async function _asrEnsure(){
+  if(_asr_child && _asr_ready) return true;
+  if(_asr_child){ try{ _asr_child.kill(); }catch(e){} _asr_child = null; }
+  await _asrSpawn();
+  return _asr_ready;
+}
+function _asrTouch(){ if(_asr_idle) clearTimeout(_asr_idle); _asr_idle = setTimeout(function(){ _asrKill(); }, 10*60*1000); }
+async function _asrTranscribe(wavPath, timeoutMs){
+  await _asrEnsure(); _asrTouch();
+  var id = "r" + (++_asr_seq) + "_" + Date.now();
+  var ans = await new Promise(function(resolve){
+    var to = setTimeout(function(){ if(_asr_waiters[id]){ delete _asr_waiters[id]; resolve({ ok:false, code:"decode-timeout", text:"" }); } }, timeoutMs || 60000);
+    _asr_waiters[id] = function(m){ clearTimeout(to); resolve(m); };
+    try{ _asr_child.stdin.write(JSON.stringify({ id:id, wav:wavPath }) + "\n"); }
+    catch(e){ clearTimeout(to); delete _asr_waiters[id]; resolve({ ok:false, code:"write-fail", error:String(e.message||e), text:"" }); }
+  });
+  _asrTouch();
+  return ans;
+}
+/* ===== 玄枢·豆包后端辅助块结束 ===== */

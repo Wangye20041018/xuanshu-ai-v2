@@ -1,0 +1,6 @@
+main==bak(未再合并): true
+main 锚点 x1  _wbE.ipcMain.handle("xuanshu:asr:status"
+main 锚点 x1  _wbE.ipcMain.handle("xuanshu:model:setMode"
+main 锚点 x1  _wbE.ipcMain.handle("xuanshu:asr:transcribe"
+main 锚点 x1  function _xsSetup(){
+main 锚点 x1  ee2.ipcMain.on("xuanshu:inference:stop"

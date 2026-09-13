@@ -1,0 +1,50 @@
+﻿PASS  文件头前5000字符与源一致
+PASS  文件尾200字符与源一致
+--- A 主题 ---
+PASS  XsThemePanel 定义: got=1 expect=1
+PASS  XSTheme API 暴露: got=1 expect=1
+PASS  XsThemePanel 使用: got=1 expect=1
+PASS  style#xs-theme-layer: count=2 (>=1)
+PASS  MutationObserver 补 body theme-mode: count=3 (>=1)
+--- B 设置页 ---
+PASS  XsLocalModelCard 定义: got=1 expect=1
+PASS  XsHardwareCard 定义: got=1 expect=1
+PASS  XsNetworkCard 定义: got=1 expect=1
+PASS  XsCloudProviderCard 定义: got=1 expect=1
+PASS  XsHealthCard 定义: got=1 expect=1
+PASS  XsLocalModelCard 使用点: got=1 expect=1
+PASS  XsHardwareCard 使用点: got=1 expect=1
+PASS  XsNetworkCard 使用点: got=1 expect=1
+PASS  XsCloudProviderCard 使用点: got=1 expect=1
+PASS  XsHealthCard 使用点: got=1 expect=1
+PASS  关于页 $_e 定义: got=1 expect=1
+PASS  Token 页 G_e 定义: got=1 expect=1
+PASS  关于页复用版权 C_e: count=2 (>=1)
+PASS  Token 页调用 usage:recentTokenHistory: count=3 (>=1)
+PASS  遥测默认关闭: got=1 expect=1
+PASS  Qt 已改为仅本地埋点: got=1 expect=1
+PASS  无带参遥测发送调用 {event,properties}: got=0 expect=0
+PASS  导航 account 项残留: got=0 expect=0
+PASS  导航 updates 项残留: got=0 expect=0
+PASS  导航 Token 命名: count=1 (>=1)
+PASS  导航 关于 命名: count=1 (>=1)
+PASS  旧反馈占位 yq 残留: got=0 expect=0
+PASS  旧积分 noMoreData 残留: got=0 expect=0
+--- C 输入框 ---
+PASS  XsModelMode 定义: got=1 expect=1
+PASS  XsYuyun 定义: got=1 expect=1
+PASS  XsModelMode 使用: got=1 expect=1
+PASS  XsYuyun 使用: got=1 expect=1
+PASS  语云占位告警残留: got=0 expect=0
+PASS  语云真实 mixRecorderStart: count=3 (>=1)
+PASS  三档 localStorage 键: count=3 (>=1)
+PASS  三档走已放行通道 xuanshu:model:setMode: count=1 (>=1)
+PASS  三档向后端同步权威模式 getMode: count=1 (>=1)
+PASS  无裸 setModelMode 调用(白名单/main均无): got=0 expect=0
+PASS  语云查询 asr:status 引擎状态: count=1 (>=1)
+PASS  语云转写放宽首次加载超时(60s): count=1 (>=1)
+PASS  onText 回填正则正确(/\s+$/): count=1 (>=1)
+--- 安全红线 ---
+PASS  未引入 npm/import 新依赖(import 语句数不增): got=0 expect=0
+
+ALL VERIFY PASS

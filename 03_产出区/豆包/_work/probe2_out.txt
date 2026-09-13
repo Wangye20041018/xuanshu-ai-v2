@@ -1,0 +1,21 @@
+ 14  window.XSTheme
+  1  function XsThemePanel
+  1  function XsLocalModelCard
+  1  function XsHardwareCard
+  1  function XsNetworkCard
+  1  function XsCloudProviderCard
+  1  function XsHealthCard
+  1  function XsModelMode
+  1  function XsYuyun
+  1  o.jsx(XsThemePanel
+  1  o.jsx(XsLocalModelCard
+  1  o.jsx(XsHealthCard
+  1  o.jsx(XsModelMode
+  1  o.jsx(XsYuyun
+  2  xs:modelMode
+  1  xs:theme
+  0  xuanshu:model:getMode
+  0  timeoutMs:60000
+  0  xuanshu:asr:status
+  0  语音识别引擎待接入
+  0  credits.noMoreData
